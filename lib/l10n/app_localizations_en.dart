@@ -34,4 +34,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectLanguage => 'Select Language';
+
+  @override
+  String get menuHome => 'Home';
+
+  @override
+  String get menuTimeClock => 'Time Clock';
+
+  @override
+  String get menuTimesheets => 'Timesheets';
+
+  @override
+  String get menuApprovals => 'Approvals';
+
+  @override
+  String get menuMore => 'Menu';
+
+  @override
+  String get Dashboard => 'Dashboard';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'home_tab.dart';
 import 'timeclock_tab.dart';
 import 'timesheets_tab.dart';
@@ -43,19 +44,27 @@ class _MainHomePageState extends State<MainHomePage> {
         unselectedItemColor: Colors.grey,
 
         type: BottomNavigationBarType.fixed, // important for 5 items
-
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.timer), label: "Time Clock"),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.insert_drive_file_outlined),
-            label: "Timesheets",
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.menuHome,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.verified_user_outlined),
-            label: "Approvals",
+            icon: const Icon(Icons.timer),
+            label: AppLocalizations.of(context)!.menuTimeClock,
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Menu"),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.insert_drive_file_outlined),
+            label: AppLocalizations.of(context)!.menuTimesheets,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.verified_user_outlined),
+            label: AppLocalizations.of(context)!.menuApprovals,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.menu),
+            label: AppLocalizations.of(context)!.menuMore,
+          ),
         ],
       ),
     );

@@ -34,4 +34,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectLanguage => 'اختر اللغة';
+
+  @override
+  String get menuHome => 'الرئيسية';
+
+  @override
+  String get menuTimeClock => 'تسجيل الوقت';
+
+  @override
+  String get menuTimesheets => 'بطاقات الوقت';
+
+  @override
+  String get menuApprovals => 'الموافقات';
+
+  @override
+  String get menuMore => 'القائمة';
+
+  @override
+  String get Dashboard => 'لوحة التحكم';
 }

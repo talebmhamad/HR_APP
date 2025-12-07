@@ -260,8 +260,8 @@ class _LoginPageState extends State<LoginPage> {
                         if (v == null || v.isEmpty) {
                           return "${AppLocalizations.of(context)!.username} is required";
                         }
-                        if (v.length < 5) {
-                          return "${AppLocalizations.of(context)!.username} must be at least 5 characters";
+                        if (v.length < 4) {
+                          return "${AppLocalizations.of(context)!.username} must be at least 4 characters";
                         }
                         return null;
                       },
@@ -321,8 +321,8 @@ class _LoginPageState extends State<LoginPage> {
                         if (v == null || v.isEmpty) {
                           return "${AppLocalizations.of(context)!.password} is required";
                         }
-                        if (v.length < 8) {
-                          return "${AppLocalizations.of(context)!.password} must be at least 8 characters";
+                        if (v.length < 4) {
+                          return "${AppLocalizations.of(context)!.password} must be at least 4 characters";
                         }
                         return null;
                       },

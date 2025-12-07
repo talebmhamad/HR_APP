@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -38,7 +39,7 @@ class HomeTab extends StatelessWidget {
                 SizedBox(width: w * 0.10), // Responsive empty space
 
                 Text(
-                  "Dashboard",
+                  AppLocalizations.of(context)!.Dashboard,
                   style: TextStyle(
                     fontSize: w * 0.05, // 5% of screen width
                     fontWeight: FontWeight.w600,
