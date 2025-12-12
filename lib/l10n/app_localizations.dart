@@ -187,6 +187,14 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dashboard'**
   String get Dashboard;
+
+  String get menuOrganization;
+  String get menuTimeOff;
+  String get menuOverview;
+  String get menuAccount;
+  String get menuPersonalSettings;
+  String get menuHelp;
+  String get menuSupport;
 }
 
 class _AppLocalizationsDelegate

@@ -52,4 +52,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get Dashboard => 'Dashboard';
+  @override
+  String get menuOrganization => 'Organization';
+
+  @override
+  String get menuTimeOff => 'Time off';
+
+  @override
+  String get menuOverview => 'Overview';
+
+  @override
+  String get menuAccount => 'Account';
+
+  @override
+  String get menuPersonalSettings => 'Personal Settings';
+
+  @override
+  String get menuHelp => 'Help';
+
+  @override
+  String get menuSupport => 'Support';
 }

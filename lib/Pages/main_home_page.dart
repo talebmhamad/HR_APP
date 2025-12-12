@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'home_tab.dart';
-import 'timeclock_tab.dart';
-import 'timesheets_tab.dart';
-import 'approvals_tab.dart';
-import 'menu_tab.dart';
+import 'package:flutter_application_1/tabs/menu_tab.dart';
+import '../tabs/home_tab.dart';
+import '../tabs/timeclock_tab.dart';
+import '../tabs/timesheets_tab.dart';
+import '../tabs/approvals_tab.dart';
 
 class MainHomePage extends StatefulWidget {
   const MainHomePage({super.key});

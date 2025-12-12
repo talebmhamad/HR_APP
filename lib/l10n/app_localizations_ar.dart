@@ -52,4 +52,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get Dashboard => 'لوحة التحكم';
+
+  @override
+  String get menuOrganization => 'المؤسسة';
+
+  @override
+  String get menuTimeOff => 'إجازة / وقت راحة';
+
+  @override
+  String get menuOverview => 'نظرة عامة';
+
+  @override
+  String get menuAccount => 'الحساب';
+
+  @override
+  String get menuPersonalSettings => 'الإعدادات الشخصية';
+
+  @override
+  String get menuHelp => 'مساعدة';
+
+  @override
+  String get menuSupport => 'الدعم';
 }

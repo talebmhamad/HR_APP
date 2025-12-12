@@ -5,6 +5,7 @@ class ApiService {
   static const String baseUrl = "http://192.168.1.101:53612/api/users";
 
   static Future<bool> login(String email, String password) async {
+    /*
     try {
       final url = Uri.parse('$baseUrl/login');
 
@@ -25,5 +26,7 @@ class ApiService {
     } catch (e) {
       return false;
     }
+*/
+    return true;
   }
 }

@@ -87,7 +87,11 @@ class _LoginPageState extends State<LoginPage> {
       if (lang != null) {
         widget.onLocaleChange(Locale(lang));
       }
-
+      await SharedPreferencesHelper.saveRememberMe(
+        rememberMe,
+        _emailController.text,
+        _passwordController.text,
+      );
       // Navigate to home
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/home');
