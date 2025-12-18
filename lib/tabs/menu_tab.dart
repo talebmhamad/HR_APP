@@ -99,7 +99,7 @@ class MenuTab extends StatelessWidget {
               initial: "E",
               color: appBlue,
               destination: const PersonalSettingsPage(),
-              radius: w * 0.01,
+              radius: w * 0.07,
             );
           }
 

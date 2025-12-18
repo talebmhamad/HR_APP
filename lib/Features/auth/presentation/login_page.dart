@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
-import 'package:flutter_application_1/services/SharedPreferencesHelper.dart';
-import '../services/authservice.dart';
+import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
+import '../data/AuthApi.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {

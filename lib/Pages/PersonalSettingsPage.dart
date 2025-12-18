@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/services/SharedPreferencesHelper.dart';
+import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
 
 import '../widgets/settingitem.dart';
 import '../widgets/user_tile.dart';
@@ -13,6 +13,7 @@ class PersonalSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+    final loc = AppLocalizations.of(context)!;
 
     // --- SETTINGS LIST ---
     final List<Map<String, dynamic>> settingsList = [
@@ -21,25 +22,25 @@ class PersonalSettingsPage extends StatelessWidget {
       {
         'type': 'item',
         'icon': Icons.notifications_none,
-        'title': 'notifications',
+        'title': loc.notifications,
         'destination': Container(),
       },
       {
         'type': 'item',
         'icon': Icons.settings_outlined,
-        'title': 'preferences',
+        'title': loc.preferences,
         'destination': Container(),
       },
       {
         'type': 'item',
         'icon': Icons.help_outline,
-        'title': AppLocalizations.of(context)!.menuSupport,
+        'title': loc.menuSupport,
         'destination': Container(),
       },
       {
         'type': 'item',
         'icon': Icons.settings_applications_sharp,
-        'title': 'accountControl',
+        'title': loc.accountControl,
         'destination': Container(),
       },
 
@@ -47,7 +48,7 @@ class PersonalSettingsPage extends StatelessWidget {
       {
         'type': 'item',
         'icon': Icons.logout,
-        'title': "logout",
+        'title': loc.logout,
         'onTap': () => _signOut(context),
       },
     ];
@@ -62,7 +63,7 @@ class PersonalSettingsPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          AppLocalizations.of(context)!.menuPersonalSettings,
+          loc.menuPersonalSettings,
           style: TextStyle(
             fontSize: w * 0.05,
             fontWeight: FontWeight.w600,
@@ -87,18 +88,18 @@ class PersonalSettingsPage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final item = settingsList[index];
 
-                // --- USER TILE ---
+                //  USER TILE
                 if (item['type'] == 'user') {
                   return UserTile(
                     name: "Test",
                     initial: "T",
                     color: appBlue,
                     destination: const PersonalSettingsPage(),
-                    radius: w * 0.05, // small avatar for settings page
+                    radius: w * 0.09,
                   );
                 }
 
-                // --- NORMAL SETTINGS ITEM ---
+                //  NORMAL SETTINGS ITEM
                 return SettingItem(
                   icon: item['icon'],
                   title: item['title'],
@@ -112,9 +113,9 @@ class PersonalSettingsPage extends StatelessWidget {
           // --- FOOTER VERSION ---
           Padding(
             padding: EdgeInsets.only(bottom: h * 0.03, top: h * 0.03),
-            child: const Text(
-              "Version 1.0.0.0",
-              style: TextStyle(color: Colors.grey, fontSize: 12),
+            child: Text(
+              '${loc.version} 1.0.0.0',
+              style: const TextStyle(color: Colors.grey, fontSize: 12),
             ),
           ),
         ],
@@ -122,12 +123,9 @@ class PersonalSettingsPage extends StatelessWidget {
     );
   }
 
-  // --- SIGN OUT ---
-  void _signOut(BuildContext context) async {
-    final ctx = context;
-
-    await SharedPreferencesHelper.clearAll();
-
-    Navigator.pushNamedAndRemoveUntil(ctx, '/login', (route) => false);
+  // SIGN OUT
+  void _signOut(BuildContext context) {
+    SharedPreferencesHelper.clearAll();
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 }

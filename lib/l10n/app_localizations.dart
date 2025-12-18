@@ -188,6 +188,17 @@ abstract class AppLocalizations {
   /// **'Dashboard'**
   String get Dashboard;
 
+  String get trackedHours;
+  String get worked;
+  String get breaks;
+  String get overtime;
+
+  String get workedHours;
+  String get breaksLabel;
+  String get overtimeHours;
+
+  String get payrollNote;
+
   String get menuOrganization;
   String get menuTimeOff;
   String get menuOverview;
@@ -195,6 +206,18 @@ abstract class AppLocalizations {
   String get menuPersonalSettings;
   String get menuHelp;
   String get menuSupport;
+  String get whosInOut;
+  String get inLabel;
+  String get breakLabel;
+  String get outLabel;
+  String noDataFor(String title);
+  String get projects;
+  String get activities;
+  String get notifications;
+  String get preferences;
+  String get accountControl;
+  String get logout;
+  String get version;
 }
 
 class _AppLocalizationsDelegate

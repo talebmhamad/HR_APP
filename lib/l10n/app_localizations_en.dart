@@ -72,4 +72,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get menuSupport => 'Support';
+
+  @override
+  String get trackedHours => 'Tracked hours';
+
+  @override
+  String get worked => 'WORKED';
+
+  @override
+  String get breaks => 'BREAKS';
+
+  @override
+  String get overtime => 'OVERTIME';
+
+  @override
+  String get workedHours => 'Worked hours';
+
+  @override
+  String get breaksLabel => 'Breaks';
+
+  @override
+  String get overtimeHours => 'Overtime hours';
+
+  @override
+  String get payrollNote => 'Does not include manually entered payroll hours';
+  @override
+  String get whosInOut => "Who's In/Out";
+
+  @override
+  String get inLabel => "IN";
+
+  @override
+  String get breakLabel => "BREAK";
+
+  @override
+  String get outLabel => "OUT";
+  @override
+  String noDataFor(String title) => 'No $title';
+  @override
+  String get projects => 'Projects';
+
+  @override
+  String get activities => 'Activities';
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get preferences => 'Preferences';
+
+  @override
+  String get accountControl => 'Account control';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get version => 'Version';
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Pages/main_home_page.dart';
-import 'package:flutter_application_1/Pages/login_page.dart';
+import 'package:flutter_application_1/Features/auth/presentation/login_page.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/services/sharedpreferenceshelper.dart';
+import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

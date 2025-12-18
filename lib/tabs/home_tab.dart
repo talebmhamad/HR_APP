@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/Widgets/chart_card.dart';
+import 'package:flutter_application_1/Widgets/tracked_hours_card.dart';
+import 'package:flutter_application_1/Widgets/who_in_out_card.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomeTab extends StatelessWidget {
@@ -8,51 +10,35 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
+    final loc = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.Dashboard,
-          style: TextStyle(
-            fontSize: w * 0.05,
-            fontWeight: FontWeight.w600,
-            color: Colors.black, // Title color
-          ),
+          loc.Dashboard,
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: w * 0.04),
-            child: CircleAvatar(
-              radius: 22,
-              backgroundColor: appBlue,
-              child: const Text("T", style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
-
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1.0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
-        ),
       ),
-      body: Column(
-        children: [
-          Divider(height: 1, thickness: 1),
-
-          //  Main Content Below
-          Expanded(
-            child: Center(
-              child: Text(
-                "Welcome to Dashboard",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        padding: EdgeInsets.all(w * 0.04),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          switch (index) {
+            case 0:
+              return const WhoInOutCard();
+            case 1:
+              return const TrackedHoursCard();
+            case 2:
+              return ChartCard(title: loc.projects);
+            case 3:
+              return ChartCard(title: loc.activities);
+            default:
+              return const SizedBox();
+          }
+        },
       ),
     );
   }

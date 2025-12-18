@@ -73,4 +73,61 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get menuSupport => 'الدعم';
+
+  @override
+  String get trackedHours => 'الساعات المتتبعة';
+
+  @override
+  String get worked => 'العمل';
+
+  @override
+  String get breaks => 'الاستراحات';
+
+  @override
+  String get overtime => 'العمل الإضافي';
+
+  @override
+  String get workedHours => 'ساعات العمل';
+
+  @override
+  String get breaksLabel => 'الاستراحات';
+
+  @override
+  String get overtimeHours => 'ساعات إضافية';
+
+  @override
+  String get payrollNote => 'لا تشمل ساعات الرواتب المُدخلة يدويًا';
+
+  @override
+  String get whosInOut => "من في الداخل / الخارج";
+
+  @override
+  String get inLabel => "داخل";
+
+  @override
+  String get breakLabel => "استراحة";
+
+  @override
+  String get outLabel => "خارج";
+  @override
+  String noDataFor(String title) => 'لا يوجد $title';
+  @override
+  String get projects => 'مشاريع';
+
+  @override
+  String get activities => 'أنشطة';
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get preferences => 'التفضيلات';
+
+  @override
+  String get accountControl => 'إدارة الحساب';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get version => 'الإصدار';
 }

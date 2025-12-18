@@ -25,11 +25,11 @@ class SettingItem extends StatelessWidget {
         InkWell(
           onTap: () {
             if (onTap != null) {
-              onTap!(); // 🔥 Custom tap action
+              onTap!(); //  Custom tap action
             } else if (destination != null) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => destination!), // 🔥 Navigate
+                MaterialPageRoute(builder: (_) => destination!), //  Navigate
               );
             }
           },
