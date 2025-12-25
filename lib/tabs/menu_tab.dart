@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Pages/personal_settings_page.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/Pages/PersonalSettingsPage.dart';
 
 import '../widgets/SettingItem.dart';
 import '../widgets/user_tile.dart';
@@ -77,14 +77,14 @@ class MenuTab extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.only(
                 bottom: h * 0.005,
-                top: h * 0.04,
+                top: h * 0.02,
                 left: w * 0.05,
                 right: w * 0.05,
               ),
               child: Text(
                 item["title"],
                 style: const TextStyle(
-                  color: Colors.black54,
+                  color: Color.fromARGB(137, 5, 5, 5),
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),

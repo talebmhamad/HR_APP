@@ -130,4 +130,52 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get version => 'الإصدار';
+
+  @override
+  String get profile => 'الملف الشخصي';
+  @override
+  String get personalInfo => 'المعلومات الشخصية';
+  @override
+  String get loginSecurity => 'تسجيل الدخول والأمان';
+  @override
+  String get dateTime => 'التاريخ والوقت';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+  @override
+  String get memberCode => 'رمز العضو';
+  @override
+  String get position => 'المنصب';
+  @override
+  String get role => 'الدور';
+  @override
+  String get member => 'عضو';
+  @override
+  String get group => 'المجموعة';
+  @override
+  String get workSchedule => 'جدول العمل';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+  @override
+  String get phoneNumber => 'رقم الهاتف';
+
+  @override
+  String get timezone => 'المنطقة الزمنية';
+  @override
+  String get language => 'اللغة';
+  @override
+  String get english => 'الإنجليزية';
+  @override
+  String get arabic => 'العربية';
+  @override
+  String get timesheetTimezone => 'المنطقة الزمنية لسجل الدوام';
+  @override
+  String get durationFormat => 'تنسيق المدة';
+  @override
+  String get accountDeleteWarning =>
+      'عند حذف الحساب، سيتم حذف جميع معلومات الحساب نهائيًا.';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
 }

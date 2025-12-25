@@ -35,8 +35,8 @@ class SettingItem extends StatelessWidget {
           },
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: h * 0.03,
-              horizontal: w * 0.05,
+              vertical: h * 0.025,
+              horizontal: w * 0.04,
             ),
             child: Row(
               children: [

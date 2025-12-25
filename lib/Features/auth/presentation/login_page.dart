@@ -1,15 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
 import '../data/AuthApi.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/providers/language_provider.dart';
 
 class LoginPage extends StatefulWidget {
-  final Function(Locale) onLocaleChange;
-
-  const LoginPage({super.key, required this.onLocaleChange});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,14 +23,6 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _showPass = false;
   bool rememberMe = false;
-  String _selectedLanguage = 'العربية (AR)';
-
-  final Map<String, String> _languagesMap = {
-    'English (US)': 'en',
-    'العربية (AR)': 'ar',
-  };
-
-  late Map<String, String> _codeToLabel;
 
   Future<void> _loadRememberMePreference() async {
     var data = await SharedPreferencesHelper.loadRememberMe();
@@ -44,33 +37,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // SAVE Remember Me + Credentials
-  Future<void> _saveRememberMePreference(bool value) async {
-    await SharedPreferencesHelper.saveRememberMe(
-      value,
-      _emailController.text,
-      _passwordController.text,
-    );
-  }
-
-  Future<void> _loadSavedLanguage() async {
-    String? saved = await SharedPreferencesHelper.loadLanguage();
-
-    if (saved != null && _codeToLabel.containsKey(saved)) {
-      setState(() {
-        _selectedLanguage = _codeToLabel[saved]!;
-      });
-    }
-  }
-
-  @override
   @override
   void initState() {
     super.initState();
-
-    _codeToLabel = _languagesMap.map((label, code) => MapEntry(code, label));
-
-    _loadSavedLanguage();
     _loadRememberMePreference();
   }
 
@@ -80,23 +49,17 @@ class _LoginPageState extends State<LoginPage> {
       _passwordController.text,
     );
 
-    if (success) {
-      // Load saved language
-      String? lang = await SharedPreferencesHelper.loadLanguage();
+    if (!mounted) return;
 
-      if (lang != null) {
-        widget.onLocaleChange(Locale(lang));
-      }
+    if (success) {
       await SharedPreferencesHelper.saveRememberMe(
         rememberMe,
         _emailController.text,
         _passwordController.text,
       );
-      // Navigate to home
-      // ignore: use_build_context_synchronously
+
       Navigator.pushReplacementNamed(context, '/home');
     } else {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Invalid username or password")),
       );
@@ -107,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -128,52 +92,50 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SizedBox(height: h * 0.05),
 
-                  // LANGUAGE DROPDOWN
+                  // ===== LANGUAGE DROPDOWN (PROVIDER) =====
                   Padding(
                     padding: EdgeInsets.only(right: w * 0.08, top: h * 0.01),
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: DropdownButton<String>(
-                        value: _selectedLanguage,
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.white70,
-                        ),
-                        dropdownColor: appBlue,
-                        underline: Container(),
-                        style: TextStyle(
-                          fontSize: w * 0.04,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-
-                        // SAME STYLE – only changed source .keys
-                        items: _languagesMap.keys.map((lang) {
-                          return DropdownMenuItem(
-                            value: lang,
-                            child: Text(
-                              lang,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: w * 0.04,
-                              ),
+                      child: Consumer<LanguageProvider>(
+                        builder: (context, provider, _) {
+                          return DropdownButton<String>(
+                            value: provider.locale.languageCode,
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down,
+                              color: Colors.white70,
                             ),
+                            dropdownColor: appBlue,
+                            underline: Container(),
+                            style: TextStyle(
+                              fontSize: w * 0.04,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            items: const [
+                              DropdownMenuItem(
+                                value: 'en',
+                                child: Text(
+                                  'English (US)',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              DropdownMenuItem(
+                                value: 'ar',
+                                child: Text(
+                                  'العربية (AR)',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                            onChanged: (code) {
+                              if (code != null) {
+                                context.read<LanguageProvider>().setLanguage(
+                                  code,
+                                );
+                              }
+                            },
                           );
-                        }).toList(),
-
-                        onChanged: (val) async {
-                          setState(() => _selectedLanguage = val!);
-
-                          // Get code from map
-                          String localeCode = _languagesMap[val]!;
-
-                          // Save to SharedPreferences
-                          await SharedPreferencesHelper.saveLanguage(
-                            localeCode,
-                          );
-
-                          // Update whole app UI immediately
-                          widget.onLocaleChange(Locale(localeCode));
                         },
                       ),
                     ),
@@ -185,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.intracore,
+                          loc.intracore,
                           style: TextStyle(
                             fontSize: w * 0.08,
                             letterSpacing: 1.5,
@@ -203,9 +165,8 @@ class _LoginPageState extends State<LoginPage> {
 
             SizedBox(height: h * 0.05),
 
-            // WELCOME BACK TEXT
             Text(
-              AppLocalizations.of(context)!.welcomeBack,
+              loc.welcomeBack,
               style: TextStyle(
                 fontSize: w * 0.06,
                 fontWeight: FontWeight.w700,
@@ -219,122 +180,45 @@ class _LoginPageState extends State<LoginPage> {
               padding: EdgeInsets.symmetric(horizontal: w * 0.08),
               child: Form(
                 key: formKey,
-                autovalidateMode: AutovalidateMode.disabled,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // USERNAME FIELD
+                    // USERNAME
                     TextFormField(
                       controller: _emailController,
-                      keyboardType: TextInputType.text,
-                      style: TextStyle(color: Colors.black87),
-                      decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.username,
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        labelStyle: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        fillColor: Colors.grey.shade50,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: appBlue, width: 2),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 16,
-                        ),
-                      ),
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return "${AppLocalizations.of(context)!.username} is required";
-                        }
-                        if (v.length < 4) {
-                          return "${AppLocalizations.of(context)!.username} must be at least 4 characters";
-                        }
-                        return null;
-                      },
+                      decoration: InputDecoration(labelText: loc.username),
+                      validator: (v) => v == null || v.isEmpty
+                          ? '${loc.username} is required'
+                          : null,
                     ),
 
                     SizedBox(height: h * 0.03),
 
-                    // PASSWORD FIELD
+                    // PASSWORD
                     TextFormField(
                       controller: _passwordController,
                       obscureText: !_showPass,
-                      style: TextStyle(color: Colors.black87),
                       decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context)!.password,
-                        floatingLabelBehavior: FloatingLabelBehavior.auto,
-                        labelStyle: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        fillColor: Colors.grey.shade50,
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(color: appBlue, width: 2),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 16,
-                        ),
+                        labelText: loc.password,
                         suffixIcon: IconButton(
                           icon: Icon(
                             _showPass
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined,
-                            color: Colors.grey.shade600,
                           ),
                           onPressed: () {
                             setState(() => _showPass = !_showPass);
                           },
                         ),
                       ),
-                      validator: (v) {
-                        if (v == null || v.isEmpty) {
-                          return "${AppLocalizations.of(context)!.password} is required";
-                        }
-                        if (v.length < 4) {
-                          return "${AppLocalizations.of(context)!.password} must be at least 4 characters";
-                        }
-                        return null;
-                      },
+                      validator: (v) => v == null || v.isEmpty
+                          ? '${loc.password} is required'
+                          : null,
                     ),
 
                     SizedBox(height: h * 0.03),
 
-                    // REMEMBER ME + FORGOT PASSWORD
+                    // REMEMBER ME
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -346,25 +230,15 @@ class _LoginPageState extends State<LoginPage> {
                                 setState(() => rememberMe = v!);
                               },
                               activeColor: appBlue,
-                              checkColor: Colors.white,
                             ),
-                            Text(
-                              AppLocalizations.of(context)!.rememberMe,
-                              style: TextStyle(
-                                fontSize: w * 0.038,
-                                color: Colors.black87,
-                              ),
-                            ),
+                            Text(loc.rememberMe),
                           ],
                         ),
                         TextButton(
                           onPressed: () {},
                           child: Text(
-                            AppLocalizations.of(context)!.forgotPassword,
-                            style: TextStyle(
-                              fontSize: w * 0.038,
-                              color: appBlue,
-                            ),
+                            loc.forgotPassword,
+                            style: TextStyle(color: appBlue),
                           ),
                         ),
                       ],
@@ -374,7 +248,6 @@ class _LoginPageState extends State<LoginPage> {
 
                     // LOGIN BUTTON
                     SizedBox(
-                      width: double.infinity,
                       height: h * 0.07,
                       child: ElevatedButton(
                         onPressed: () {
@@ -384,13 +257,9 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: appBlue,
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!.login,
+                          loc.login,
                           style: TextStyle(
                             fontSize: w * 0.05,
                             color: Colors.white,

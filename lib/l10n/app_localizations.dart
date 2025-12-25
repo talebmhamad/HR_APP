@@ -218,6 +218,33 @@ abstract class AppLocalizations {
   String get accountControl;
   String get logout;
   String get version;
+
+  // ===== USER PROFILE =====
+  String get profile;
+  String get personalInfo;
+  String get loginSecurity;
+  String get dateTime;
+
+  String get fullName;
+  String get memberCode;
+  String get position;
+  String get role;
+  String get member;
+  String get group;
+  String get workSchedule;
+
+  String get email;
+  String get phoneNumber;
+
+  String get timezone;
+  String get language;
+  String get english;
+  String get arabic;
+  String get timesheetTimezone;
+  String get durationFormat;
+
+  String get accountDeleteWarning;
+  String get deleteAccount;
 }
 
 class _AppLocalizationsDelegate

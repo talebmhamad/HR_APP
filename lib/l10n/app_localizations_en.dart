@@ -128,4 +128,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get version => 'Version';
+
+  @override
+  String get profile => 'Profile';
+  @override
+  String get personalInfo => 'Personal information';
+  @override
+  String get loginSecurity => 'Login & security';
+  @override
+  String get dateTime => 'Date & Time';
+
+  @override
+  String get fullName => 'Full name';
+  @override
+  String get memberCode => 'Member code';
+  @override
+  String get position => 'Position';
+  @override
+  String get role => 'Role';
+  @override
+  String get member => 'Member';
+  @override
+  String get group => 'Group';
+  @override
+  String get workSchedule => 'Work schedule';
+
+  @override
+  String get email => 'Email';
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get timezone => 'Timezone';
+  @override
+  String get language => 'Language';
+  @override
+  String get english => 'English';
+  @override
+  String get arabic => 'Arabic';
+  @override
+  String get timesheetTimezone => 'Timesheet timezone';
+  @override
+  String get durationFormat => 'Duration format';
+  @override
+  String get accountDeleteWarning =>
+      'Once deleted, any account information will be gone forever.';
+
+  @override
+  String get deleteAccount => 'Delete account';
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Widgets/dashboard_utils.dart';
+import 'package:flutter_application_1/widgets/dashboard_utils.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class WhoInOutCard extends StatelessWidget {
