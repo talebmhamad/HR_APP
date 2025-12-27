@@ -245,6 +245,12 @@ abstract class AppLocalizations {
 
   String get accountDeleteWarning;
   String get deleteAccount;
+  String get employee;
+  String get date;
+  String get checkInTime;
+  String get confirmCheckIn;
+  String get addNote;
+  String get hintnote;
 }
 
 class _AppLocalizationsDelegate

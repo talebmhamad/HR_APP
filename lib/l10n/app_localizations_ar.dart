@@ -178,4 +178,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deleteAccount => 'حذف الحساب';
+  @override
+  String get employee => 'الموظف';
+  @override
+  String get date => 'التاريخ';
+  @override
+  String get checkInTime => 'وقت تسجيل الدخول';
+  @override
+  String get confirmCheckIn => 'تأكيد تسجيل الدخول';
+  @override
+  String get addNote => 'إضافة ملاحظة';
+  @override
+  String get hintnote => 'اكتب ملاحظتك هنا...';
 }

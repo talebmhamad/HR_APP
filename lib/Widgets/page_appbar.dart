@@ -26,10 +26,6 @@ class AppPageAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 0,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1),
-        child: Container(height: 1, color: Colors.grey.shade300),
-      ),
     );
   }
 

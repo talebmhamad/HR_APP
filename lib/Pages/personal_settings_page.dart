@@ -4,7 +4,7 @@ import 'package:flutter_application_1/Pages/user_profile_page.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
-import 'package:flutter_application_1/widgets/LanguageDropdown.dart';
+import 'package:flutter_application_1/widgets/language_dropdown.dart';
 import 'package:flutter_application_1/providers/language_provider.dart';
 import 'package:flutter_application_1/widgets/page_appbar.dart';
 import 'package:provider/provider.dart';
