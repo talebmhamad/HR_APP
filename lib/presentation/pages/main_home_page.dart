@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/tabs/menu_tab.dart';
+import 'package:flutter_application_1/presentation/tabs/menu_tab.dart';
 import '../tabs/home_tab.dart';
 import '../tabs/timeclock_tab.dart';
 import '../tabs/timesheets_tab.dart';
-import '../tabs/approvals_tab.dart';
 
 class MainHomePage extends StatefulWidget {
   const MainHomePage({super.key});
@@ -22,7 +21,6 @@ class _MainHomePageState extends State<MainHomePage> {
     HomeTab(),
     TimeClockTab(),
     TimesheetsTab(),
-    ApprovalsTab(),
     MenuTab(),
   ];
 
@@ -57,10 +55,7 @@ class _MainHomePageState extends State<MainHomePage> {
             icon: const Icon(Icons.insert_drive_file_outlined),
             label: AppLocalizations.of(context)!.menuTimesheets,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.verified_user_outlined),
-            label: AppLocalizations.of(context)!.menuApprovals,
-          ),
+
           BottomNavigationBarItem(
             icon: const Icon(Icons.menu),
             label: AppLocalizations.of(context)!.menuMore,

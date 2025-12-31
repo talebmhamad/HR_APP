@@ -48,7 +48,7 @@ class SharedPreferencesHelper {
     return {"remember": remember, "username": username, "password": password};
   }
 
-  static Future<void> clearAll() async {
+  Future<void> clearAll() async {
     final prefs = await SharedPreferences.getInstance();
     // Clears all keys/value pairs stored by the app
     await prefs.clear();

@@ -4,16 +4,16 @@ class UserTile extends StatelessWidget {
   final String name;
   final String initial;
   final Color color;
-  final Widget destination;
-  final double radius; // You can manually control it
+  final double radius;
+  final VoidCallback? onTap; // ✅ بدل destination
 
   const UserTile({
     super.key,
     required this.name,
     required this.initial,
     required this.color,
-    required this.destination,
     required this.radius,
+    this.onTap,
   });
 
   @override
@@ -23,12 +23,7 @@ class UserTile extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => destination),
-            );
-          },
+          onTap: onTap, // ✅
           child: Padding(
             padding: EdgeInsets.symmetric(
               vertical: radius * 0.4,

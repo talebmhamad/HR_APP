@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Pages/check_in_page.dart';
+import 'package:flutter_application_1/presentation/pages/check_in_page.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/widgets/timeclock_card.dart';
+import 'package:flutter_application_1/presentation/widgets/timeclock_card.dart';
 
 class TimeClockTab extends StatelessWidget {
   TimeClockTab({super.key});

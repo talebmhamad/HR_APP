@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Pages/personal_settings_page.dart';
+import 'package:flutter_application_1/presentation/pages/personal_settings_page.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/routes/route_names.dart';
 
-import '../widgets/SettingItem.dart';
+import '../../widgets/SettingItem.dart';
 import '../widgets/user_tile.dart';
 
 class MenuTab extends StatelessWidget {
@@ -14,7 +15,6 @@ class MenuTab extends StatelessWidget {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
 
-    //  All items for the ListView.builder
     final List<Map<String, dynamic>> menuList = [
       {
         "type": "section",
@@ -27,7 +27,7 @@ class MenuTab extends StatelessWidget {
         "type": "item",
         "icon": Icons.work_outline,
         "title": AppLocalizations.of(context)!.menuTimeOff,
-        "dest": const PersonalSettingsPage(),
+        "route": RouteNames.settings,
       },
 
       {"type": "section", "title": AppLocalizations.of(context)!.menuAccount},
@@ -35,7 +35,7 @@ class MenuTab extends StatelessWidget {
         "type": "item",
         "icon": Icons.person_outline,
         "title": AppLocalizations.of(context)!.menuPersonalSettings,
-        "dest": const PersonalSettingsPage(),
+        "route": RouteNames.settings,
       },
 
       {"type": "section", "title": AppLocalizations.of(context)!.menuHelp},
@@ -43,7 +43,7 @@ class MenuTab extends StatelessWidget {
         "type": "item",
         "icon": Icons.help_outline,
         "title": AppLocalizations.of(context)!.menuSupport,
-        "dest": const PersonalSettingsPage(),
+        "route": RouteNames.settings,
       },
     ];
 
@@ -98,16 +98,20 @@ class MenuTab extends StatelessWidget {
               name: "Erpuim",
               initial: "E",
               color: appBlue,
-              destination: const PersonalSettingsPage(),
+              onTap: () {
+                Navigator.pushNamed(context, RouteNames.profile);
+              },
               radius: w * 0.07,
             );
           }
 
           // NORMAL MENU ITEM
-          return SettingItem(
+          SettingItem(
             icon: item["icon"],
             title: item["title"],
-            destination: item["dest"],
+            onTap: () {
+              Navigator.pushNamed(context, item["route"]);
+            },
           );
         },
       ),

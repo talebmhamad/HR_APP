@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
-import '../data/AuthApi.dart';
+import '../../data/api/AuthApi.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/providers/language_provider.dart';
 

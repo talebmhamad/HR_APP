@@ -131,8 +131,6 @@ class HistogramPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final loc = AppLocalizations.of(context)!;
-
     final linePaint = Paint()
       ..color = Colors.grey.withOpacity(0.15)
       ..strokeWidth = 1;

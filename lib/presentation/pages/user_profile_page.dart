@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/widgets/page_appbar.dart';
+import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});

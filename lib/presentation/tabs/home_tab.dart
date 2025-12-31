@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/chart_card.dart';
-import 'package:flutter_application_1/widgets/tracked_hours_card.dart';
-import 'package:flutter_application_1/widgets/who_in_out_card.dart';
+import 'package:flutter_application_1/presentation/widgets/chart_card.dart';
+import 'package:flutter_application_1/presentation/widgets/trackedhours_card.dart';
+import 'package:flutter_application_1/presentation/widgets/who_in_out_card.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
 class HomeTab extends StatelessWidget {

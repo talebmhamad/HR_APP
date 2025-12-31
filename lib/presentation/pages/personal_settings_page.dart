@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Pages/account_control_page.dart';
-import 'package:flutter_application_1/Pages/user_profile_page.dart';
-import 'package:flutter_application_1/constants.dart';
-import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
-import 'package:flutter_application_1/widgets/language_dropdown.dart';
-import 'package:flutter_application_1/providers/language_provider.dart';
-import 'package:flutter_application_1/widgets/page_appbar.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/settingitem.dart';
+import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/providers/auth_provider.dart';
+import 'package:flutter_application_1/providers/language_provider.dart';
+import 'package:flutter_application_1/routes/route_names.dart';
+
+import '../widgets/page_appbar.dart';
+import '../widgets/setting_item.dart';
 import '../widgets/user_tile.dart';
+import '../widgets/language_dropdown.dart';
 
 class PersonalSettingsPage extends StatefulWidget {
   const PersonalSettingsPage({super.key});
@@ -20,15 +20,16 @@ class PersonalSettingsPage extends StatefulWidget {
 }
 
 class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
-  final GlobalKey<PopupMenuButtonState<String>> languageMenuKey = GlobalKey();
+  final GlobalKey<PopupMenuButtonState<String>> _languageMenuKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final h = MediaQuery.of(context).size.height;
     final w = MediaQuery.of(context).size.width;
     final loc = AppLocalizations.of(context)!;
-    final provider = Provider.of<LanguageProvider>(context);
+    final langProvider = context.watch<LanguageProvider>();
 
-    //  SETTINGS LIST
+    /// SETTINGS CONFIG (Routes only)
     final List<Map<String, dynamic>> settingsList = [
       {'type': 'user'},
 
@@ -36,35 +37,28 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
         'type': 'item',
         'icon': Icons.notifications_none,
         'title': loc.notifications,
-        'destination': Container(),
+        'route': RouteNames.settings, // placeholder
       },
-
       {
         'type': 'item',
         'icon': Icons.help_outline,
         'title': loc.menuSupport,
-        'destination': Container(),
+        'route': RouteNames.settings, // placeholder
       },
       {
         'type': 'item',
         'icon': Icons.settings_applications_sharp,
         'title': loc.accountControl,
-        'destination': AccountControlPage(),
+        'route': RouteNames.accountControl,
       },
-      // ADD THIS LANGUAGE ITEM HERE
-      {'type': 'language', 'icon': Icons.language, 'title': loc.language},
-      //  LOGOUT
-      {
-        'type': 'item',
-        'icon': Icons.logout,
-        'title': loc.logout,
-        'onTap': () => _signOut(context),
-      },
+
+      {'type': 'language'},
+
+      {'type': 'logout', 'icon': Icons.logout, 'title': loc.logout},
     ];
 
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppPageAppBar(title: loc.menuPersonalSettings),
       body: Column(
         children: [
@@ -78,32 +72,35 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                 //  USER TILE
                 if (item['type'] == 'user') {
                   return UserTile(
-                    name: "Test",
+                    name: "Test User",
                     initial: "T",
                     color: appBlue,
-                    destination: const UserProfilePage(),
                     radius: w * 0.09,
+                    onTap: () {
+                      Navigator.pushNamed(context, RouteNames.profile);
+                    },
                   );
                 }
-                // 2. ADD THE LANGUAGE UI LOGIC HERE
+
+                //  LANGUAGE
                 if (item['type'] == 'language') {
                   return Column(
                     children: [
                       ListTile(
                         leading: Icon(
-                          item['icon'],
+                          Icons.language,
                           color: Colors.grey,
                           size: w * 0.09,
                         ),
                         title: Text(
-                          item['title'],
+                          loc.language,
                           style: TextStyle(
                             fontSize: w * 0.045,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         subtitle: Text(
-                          provider.locale.languageCode == 'en'
+                          langProvider.locale.languageCode == 'en'
                               ? 'English'
                               : 'العربية',
                           style: const TextStyle(
@@ -112,11 +109,11 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                           ),
                         ),
                         trailing: LanguageDropdown(
-                          menuKey: languageMenuKey,
+                          menuKey: _languageMenuKey,
                           dropdownColor: appBlue,
                         ),
                         onTap: () {
-                          languageMenuKey.currentState?.showButtonMenu();
+                          _languageMenuKey.currentState?.showButtonMenu();
                         },
                       ),
                       Divider(
@@ -128,20 +125,30 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                   );
                 }
 
-                //  NORMAL SETTINGS ITEM
+                // ---------- LOGOUT ----------
+                if (item['type'] == 'logout') {
+                  return SettingItem(
+                    icon: item['icon'],
+                    title: item['title'],
+                    onTap: () => _signOut(context),
+                  );
+                }
+
+                // ---------- NORMAL ITEM ----------
                 return SettingItem(
                   icon: item['icon'],
                   title: item['title'],
-                  destination: item['destination'],
-                  onTap: item['onTap'],
+                  onTap: () {
+                    Navigator.pushNamed(context, item['route']);
+                  },
                 );
               },
             ),
           ),
 
-          // --- FOOTER VERSION ---
+          //  FOOTER
           Padding(
-            padding: EdgeInsets.only(bottom: h * 0.03, top: h * 0.03),
+            padding: EdgeInsets.symmetric(vertical: h * 0.03),
             child: Text(
               '${loc.version} 1.0.0.0',
               style: const TextStyle(color: Colors.grey, fontSize: 12),
@@ -152,9 +159,10 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
     );
   }
 
-  // SIGN OUT
-  void _signOut(BuildContext context) {
-    SharedPreferencesHelper.clearAll();
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  /// LOGOUT (Provider only)
+  Future<void> _signOut(BuildContext context) async {
+    await context.read<AuthProvider>().logout();
+
+    Navigator.pushNamedAndRemoveUntil(context, RouteNames.login, (_) => false);
   }
 }

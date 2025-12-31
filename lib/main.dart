@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
-
-import 'Pages/main_home_page.dart';
-import 'features/auth/presentation/login_page.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
 import 'core/storage/sharedpreferenceshelper.dart';
+import 'routes/route_names.dart';
+import 'routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final rememberData = await SharedPreferencesHelper.loadRememberMe();
-  final bool remember = rememberData["remember"] ?? false;
+  final prefs = SharedPreferencesHelper();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => LanguageProvider(),
-      child: MyApp(isLoggedIn: remember),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LanguageProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider(prefs)..init()),
+      ],
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedIn;
-
-  const MyApp({super.key, required this.isLoggedIn});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     final langProvider = context.watch<LanguageProvider>();
+    final authProvider = context.watch<AuthProvider>();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
 
-      //  Localization
       locale: langProvider.locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
 
-      //  SAFE BOOT SCREEN
-      home: isLoggedIn ? const MainHomePage() : const LoginPage(),
+      initialRoute: authProvider.isLoggedIn
+          ? RouteNames.home
+          : RouteNames.login,
 
-      routes: {
-        '/login': (_) => const LoginPage(),
-        '/home': (_) => const MainHomePage(),
-      },
+      routes: AppRoutes.routes,
     );
   }
 }
