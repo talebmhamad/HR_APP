@@ -21,31 +21,46 @@ class SharedPreferencesHelper {
   static const String usernameKey = "saved_username";
   static const String passwordKey = "saved_password";
 
+  static const String employeeIdKey = 'employee_id';
+
   static Future<void> saveRememberMe(
     bool value,
     String username,
-    String password,
-  ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String password, {
+    int? employeeId,
+  }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     await prefs.setBool(rememberMeKey, value);
 
     if (value) {
       await prefs.setString(usernameKey, username);
       await prefs.setString(passwordKey, password);
+
+      if (employeeId != null) {
+        await prefs.setInt(employeeIdKey, employeeId);
+      }
     } else {
       await prefs.remove(usernameKey);
       await prefs.remove(passwordKey);
+      await prefs.remove(employeeIdKey);
     }
   }
 
   static Future<Map<String, dynamic>> loadRememberMe() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool remember = prefs.getBool(rememberMeKey) ?? false;
     String username = prefs.getString(usernameKey) ?? '';
     String password = prefs.getString(passwordKey) ?? '';
+    int? employeeId = prefs.getInt(employeeIdKey);
 
-    return {"remember": remember, "username": username, "password": password};
+    return {
+      "remember": remember,
+      "username": username,
+      "password": password,
+      "employeeId": employeeId,
+    };
   }
 
   Future<void> clearAll() async {

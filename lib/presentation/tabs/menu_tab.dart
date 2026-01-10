@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/presentation/pages/personal_settings_page.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/presentation/widgets/setting_item.dart';
 import 'package:flutter_application_1/routes/route_names.dart';
 
-import '../../widgets/SettingItem.dart';
-import '../widgets/user_tile.dart';
+import '../widgets/user_title.dart';
 
 class MenuTab extends StatelessWidget {
   const MenuTab({super.key});
@@ -106,7 +105,7 @@ class MenuTab extends StatelessWidget {
           }
 
           // NORMAL MENU ITEM
-          SettingItem(
+          return SettingItem(
             icon: item["icon"],
             title: item["title"],
             onTap: () {

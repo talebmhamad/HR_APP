@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
+import 'package:flutter_application_1/providers/employee_provider.dart';
+import 'package:provider/provider.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({super.key});
@@ -8,8 +10,11 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    // Initialize provider to update the subtitle dynamically
+    final employee = context.watch<EmployeeProvider>().employee;
 
+    if (employee == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppPageAppBar(title: loc.profile),
@@ -19,9 +24,12 @@ class UserProfilePage extends StatelessWidget {
             context,
             title: loc.personalInfo,
             children: [
-              _item(loc.fullName, "Test"),
-              _item(loc.memberCode, "Tes-1"),
-              _item(loc.position, "-"),
+              _item(loc.fullName, '${employee.firstName} ${employee.lastName}'),
+              _item(loc.memberCode, employee.employeeId.toString()),
+              _item(
+                loc.position,
+                employee.department.isNotEmpty ? employee.department : '-',
+              ),
               _item(loc.role, loc.member),
             ],
           ),
@@ -29,8 +37,8 @@ class UserProfilePage extends StatelessWidget {
             context,
             title: loc.loginSecurity,
             children: [
-              _item(loc.email, "mhamad@gmail.com"),
-              _item(loc.phoneNumber, "96170381880"),
+              _item(loc.email, employee.email),
+              _item(loc.phoneNumber, employee.phoneNumber ?? '-'),
             ],
           ),
         ],

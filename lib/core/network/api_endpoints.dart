@@ -1,3 +1,3 @@
 class ApiEndpoints {
-  static const login = '/api/users/login';
+  static const login = '/api/auth/login';
 }

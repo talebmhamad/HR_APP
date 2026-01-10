@@ -182,11 +182,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get date => 'Date';
   @override
-  String get checkInTime => 'Check-in Time';
+  String get Time => 'Time';
   @override
-  String get confirmCheckIn => 'Confirm Check-In';
+  String get confirm => 'Confirm';
   @override
   String get addNote => 'Add Note';
   @override
   String get hintnote => 'Write any notes here...';
+
+  @override
+  String get accountDeleteConfirm =>
+      'Are you sure you want to delete your account? This action cannot be undone.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get operationFailed => 'Operation failed. Please try again.';
 }

@@ -1,11 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/auth_provider.dart';
+import 'package:flutter_application_1/providers/employee_provider.dart';
+import 'package:flutter_application_1/routes/route_names.dart';
 import 'package:provider/provider.dart';
-
 import 'package:flutter_application_1/constants.dart';
-import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
-import '../../data/api/AuthApi.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/providers/language_provider.dart';
 
@@ -24,41 +24,35 @@ class _LoginPageState extends State<LoginPage> {
   bool _showPass = false;
   bool rememberMe = false;
 
-  Future<void> _loadRememberMePreference() async {
-    var data = await SharedPreferencesHelper.loadRememberMe();
-
-    setState(() {
-      rememberMe = data["remember"];
-    });
-
-    if (rememberMe) {
-      _emailController.text = data["username"];
-      _passwordController.text = data["password"];
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _loadRememberMePreference();
   }
 
   Future<void> _login() async {
-    bool success = await ApiService.login(
+    final authProvider = context.read<AuthProvider>();
+    final employeeProvider = context.read<EmployeeProvider>();
+
+    final success = await authProvider.login(
       _emailController.text,
       _passwordController.text,
+      rememberMe,
     );
 
     if (!mounted) return;
 
     if (success) {
-      await SharedPreferencesHelper.saveRememberMe(
-        rememberMe,
-        _emailController.text,
-        _passwordController.text,
-      );
+      final employeeId = authProvider.employeeId;
 
-      Navigator.pushReplacementNamed(context, '/home');
+      if (employeeId != null) {
+        await employeeProvider.loadEmployee(employeeId);
+      }
+
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        RouteNames.home,
+        (route) => false,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Invalid username or password")),
@@ -247,25 +241,40 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: h * 0.04),
 
                     // LOGIN BUTTON
-                    SizedBox(
-                      height: h * 0.07,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            _login();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: appBlue,
-                        ),
-                        child: Text(
-                          loc.login,
-                          style: TextStyle(
-                            fontSize: w * 0.05,
-                            color: Colors.white,
+                    Consumer<AuthProvider>(
+                      builder: (context, auth, _) {
+                        return SizedBox(
+                          height: h * 0.07,
+                          child: ElevatedButton(
+                            onPressed: auth.isLoading
+                                ? null
+                                : () {
+                                    if (formKey.currentState!.validate()) {
+                                      _login();
+                                    }
+                                  },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: appBlue,
+                            ),
+                            child: auth.isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.5,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    loc.login,
+                                    style: TextStyle(
+                                      fontSize: w * 0.05,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
 
                     SizedBox(height: h * 0.05),

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/presentation/widgets/row_chekin.dart';
+import 'package:flutter_application_1/providers/attendance_provider.dart';
+import 'package:flutter_application_1/providers/employee_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class CheckInPage extends StatefulWidget {
   const CheckInPage({super.key});
@@ -31,7 +34,7 @@ class _CheckInPageState extends State<CheckInPage> {
       backgroundColor: const Color(0xFFF3F6FF),
       appBar: AppBar(
         title: Text(
-          loc.confirmCheckIn,
+          loc.confirm,
           style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
@@ -62,10 +65,17 @@ class _CheckInPageState extends State<CheckInPage> {
 
                     child: Column(
                       children: [
-                        RowCheckIn(
-                          icon: Icons.person_outline,
-                          label: loc.employee,
-                          value: "John Doe",
+                        Consumer<EmployeeProvider>(
+                          builder: (context, employeeProvider, _) {
+                            final employee = employeeProvider.employee;
+                            return RowCheckIn(
+                              icon: Icons.person_outline,
+                              label: loc.employee,
+                              value: employee != null
+                                  ? '${employee.firstName} ${employee.lastName}'
+                                  : '-',
+                            );
+                          },
                         ),
 
                         const Divider(height: 30, thickness: 0.8),
@@ -80,7 +90,7 @@ class _CheckInPageState extends State<CheckInPage> {
 
                         RowCheckIn(
                           icon: Icons.access_time_rounded,
-                          label: loc.checkInTime,
+                          label: loc.Time,
                           value: time,
                         ),
                       ],
@@ -99,7 +109,6 @@ class _CheckInPageState extends State<CheckInPage> {
                   ),
                   const SizedBox(height: 12),
 
-                  // تحسين حقل النص
                   TextField(
                     controller: noteController,
                     maxLines: 4,
@@ -135,7 +144,20 @@ class _CheckInPageState extends State<CheckInPage> {
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: context.watch<AttendanceProvider>().isLoading
+                    ? null
+                    : () async {
+                        final employee = context
+                            .read<EmployeeProvider>()
+                            .employee;
+                        if (employee == null) return;
+                        final success = await context
+                            .read<AttendanceProvider>()
+                            .check(employee.employeeId);
+                        if (success && mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green.shade600,
                   foregroundColor: Colors.white,
@@ -145,7 +167,7 @@ class _CheckInPageState extends State<CheckInPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  loc.confirmCheckIn,
+                  loc.confirm,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),

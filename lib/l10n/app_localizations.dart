@@ -247,10 +247,14 @@ abstract class AppLocalizations {
   String get deleteAccount;
   String get employee;
   String get date;
-  String get checkInTime;
-  String get confirmCheckIn;
+  String get Time;
+  String get confirm;
   String get addNote;
   String get hintnote;
+
+  String get accountDeleteConfirm;
+  String get cancel;
+  String get operationFailed;
 }
 
 class _AppLocalizationsDelegate

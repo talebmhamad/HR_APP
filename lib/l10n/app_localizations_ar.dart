@@ -183,11 +183,21 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get date => 'التاريخ';
   @override
-  String get checkInTime => 'وقت تسجيل الدخول';
+  String get Time => 'وقت التسجيل ';
   @override
-  String get confirmCheckIn => 'تأكيد تسجيل الدخول';
+  String get confirm => 'تأكيد التسجيل ';
   @override
   String get addNote => 'إضافة ملاحظة';
   @override
   String get hintnote => 'اكتب ملاحظتك هنا...';
+
+  @override
+  String get accountDeleteConfirm =>
+      'هل أنت متأكد أنك تريد حذف حسابك؟ لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get operationFailed => 'فشلت العملية، يرجى المحاولة مرة أخرى.';
 }

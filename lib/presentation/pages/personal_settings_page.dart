@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/employee_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/constants.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_application_1/routes/route_names.dart';
 
 import '../widgets/page_appbar.dart';
 import '../widgets/setting_item.dart';
-import '../widgets/user_tile.dart';
+import '../widgets/user_title.dart';
 import '../widgets/language_dropdown.dart';
 
 class PersonalSettingsPage extends StatefulWidget {
@@ -69,15 +70,27 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
               itemBuilder: (context, index) {
                 final item = settingsList[index];
 
-                //  USER TILE
+                // USER TILE
                 if (item['type'] == 'user') {
-                  return UserTile(
-                    name: "Test User",
-                    initial: "T",
-                    color: appBlue,
-                    radius: w * 0.09,
-                    onTap: () {
-                      Navigator.pushNamed(context, RouteNames.profile);
+                  return Consumer<EmployeeProvider>(
+                    builder: (context, employeeProvider, _) {
+                      final emp = employeeProvider.employee;
+
+                      if (emp == null) {
+                        return const SizedBox();
+                      }
+
+                      return UserTile(
+                        name: '${emp.firstName} ${emp.lastName}',
+                        initial: emp.firstName.isNotEmpty
+                            ? emp.firstName[0].toUpperCase()
+                            : '?',
+                        color: appBlue,
+                        radius: w * 0.09,
+                        onTap: () {
+                          Navigator.pushNamed(context, RouteNames.profile);
+                        },
+                      );
                     },
                   );
                 }

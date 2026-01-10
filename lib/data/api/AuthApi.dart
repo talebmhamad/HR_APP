@@ -1,32 +1,31 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../core/network/api_config.dart';
+import '../../core/network/api_exception.dart';
+import '../models/auth_model.dart';
 
-class ApiService {
-  static const String baseUrl = "http://192.168.1.101:53612/api/users";
+class AuthApi {
+  static Future<AuthModel> login(String username, String password) async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}/api/auth/login'),
+      headers: ApiConfig.headers(),
+      body: jsonEncode({'username': username, 'password': password}),
+    );
 
-  static Future<bool> login(String email, String password) async {
-    /*
-    try {
-      final url = Uri.parse('$baseUrl/login');
-
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: jsonEncode({'email': email, 'password': password}),
-      );
-
-      if (response.statusCode == 200) {
-        return true; // LOGIN SUCCESS
-      } else {
-        return false; // LOGIN FAILED
-      }
-    } catch (e) {
-      return false;
+    if (response.statusCode == 200) {
+      return AuthModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw ApiException('Invalid username or password');
     }
-*/
-    return true;
+  }
+
+  static Future<void> deactivateUser(int employeeId) async {
+    final response = await http.post(
+      Uri.parse('${ApiConfig.baseUrl}/api/User/deactivate/$employeeId'),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to deactivate account');
+    }
   }
 }
