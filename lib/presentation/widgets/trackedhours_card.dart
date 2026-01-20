@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/attendance_provider.dart';
+import 'package:provider/provider.dart';
 import 'dashboard_utils.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 
@@ -8,64 +10,85 @@ class TrackedHoursCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    return Consumer<AttendanceProvider>(
+      builder: (context, provider, _) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          decoration: cardDecoration(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              buildCardHeader(loc.trackedHours),
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: cardDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header
-          buildCardHeader(loc.trackedHours),
-
-          // 1. Top Stats
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                buildTopStat("-", loc.worked),
-                buildTopStat("-", loc.breaks),
-                buildTopStat("-", loc.overtime),
-              ],
-            ),
-          ),
-
-          const Divider(height: 1),
-
-          // 2. Histogram Area
-          Container(
-            height: 250,
-            padding: const EdgeInsets.fromLTRB(16, 24, 24, 16),
-            child: const HistogramWidget(),
-          ),
-
-          // 3. Legend
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              // 1. Top Stats
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildLegendItem(const Color(0xFF63C64D), loc.workedHours),
-                    const SizedBox(width: 16),
-                    buildLegendItem(const Color(0xFFEEB13E), loc.breaksLabel),
-                    const SizedBox(width: 16),
-                    buildLegendItem(const Color(0xFFC3304B), loc.overtimeHours),
+                    buildTopStat(
+                      provider.totalWorkHours > 0
+                          ? provider.totalWorkHours.toStringAsFixed(1)
+                          : "0.0",
+                      loc.worked,
+                    ),
+
+                    buildTopStat("-", loc.breaks),
+                    buildTopStat("-", loc.overtime),
                   ],
                 ),
-                const SizedBox(height: 24),
-                Text(
-                  loc.payrollNote,
-                  style: TextStyle(color: Colors.grey.shade400, fontSize: 11),
-                  textAlign: TextAlign.center,
+              ),
+
+              const Divider(height: 1),
+
+              // 2. Histogram Area
+              Container(
+                height: 250,
+                padding: const EdgeInsets.fromLTRB(16, 24, 24, 16),
+                child: const HistogramWidget(),
+              ),
+
+              // 3. Legend
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        buildLegendItem(
+                          const Color(0xFF63C64D),
+                          loc.workedHours,
+                        ),
+                        const SizedBox(width: 16),
+                        buildLegendItem(
+                          const Color(0xFFEEB13E),
+                          loc.breaksLabel,
+                        ),
+                        const SizedBox(width: 16),
+                        buildLegendItem(
+                          const Color(0xFFC3304B),
+                          loc.overtimeHours,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      loc.payrollNote,
+                      style: TextStyle(
+                        color: Colors.grey.shade400,
+                        fontSize: 11,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

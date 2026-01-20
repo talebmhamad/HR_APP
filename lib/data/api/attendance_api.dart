@@ -26,4 +26,30 @@ class AttendanceApi {
 
     return res.statusCode == 200;
   }
+
+  static Future<int> getCountToday(int employeeId) async {
+    final res = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/api/attendance/today/$employeeId'),
+      headers: ApiConfig.headers(),
+    );
+
+    if (res.statusCode == 200) {
+      return int.parse(res.body);
+    }
+
+    throw Exception('Failed to get today attendance count');
+  }
+
+  static Future<double> GetTotalWorkHours(int employeeId) async {
+    final res = await http.get(
+      Uri.parse('${ApiConfig.baseUrl}/api/attendance/workhours/$employeeId'),
+      headers: ApiConfig.headers(),
+    );
+
+    if (res.statusCode == 200) {
+      return double.parse(res.body);
+    }
+
+    throw Exception('Failed to get today attendance count');
+  }
 }

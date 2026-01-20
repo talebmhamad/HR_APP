@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/repositories/AuthRepository%20.dart';
+import 'package:flutter_application_1/data/repositories/TimesheetRepository%20.dart';
 import 'package:flutter_application_1/data/repositories/attendance_repository.dart';
 import 'package:flutter_application_1/data/repositories/employee_repository.dart';
 import 'package:flutter_application_1/providers/attendance_provider.dart';
 import 'package:flutter_application_1/providers/auth_provider.dart';
 import 'package:flutter_application_1/providers/employee_provider.dart';
+import 'package:flutter_application_1/providers/theme_provider.dart';
+import 'package:flutter_application_1/providers/timesheet_provider.dart';
+import 'package:flutter_application_1/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
@@ -31,6 +35,10 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => AttendanceProvider(AttendanceRepository()),
         ),
+        ChangeNotifierProvider(
+          create: (_) => TimesheetProvider(TimesheetRepository()),
+        ),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
       child: const MyApp(),
     ),
@@ -42,21 +50,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final langProvider = context.watch<LanguageProvider>();
-    final authProvider = context.watch<AuthProvider>();
+    return Consumer3<LanguageProvider, AuthProvider, ThemeProvider>(
+      builder: (context, langProvider, authProvider, themeProvider, _) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+          //  Language
+          locale: langProvider.locale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
 
-      locale: langProvider.locale,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+          //  Theme
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeProvider.themeMode,
 
-      initialRoute: authProvider.isLoggedIn
-          ? RouteNames.home
-          : RouteNames.login,
+          //  Auth routing
+          initialRoute: authProvider.isLoggedIn
+              ? RouteNames.home
+              : RouteNames.login,
 
-      routes: AppRoutes.routes,
+          routes: AppRoutes.routes,
+        );
+      },
     );
   }
 }

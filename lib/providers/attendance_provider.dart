@@ -9,7 +9,8 @@ class AttendanceProvider extends ChangeNotifier {
 
   List<AttendanceModel> attendances = [];
   bool isLoading = false;
-
+  int todayCount = 0;
+  double totalWorkHours = 0.0;
   //  Load Attendance
   Future<void> loadByEmployee(int employeeId) async {
     isLoading = true;
@@ -52,8 +53,22 @@ class AttendanceProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> loadTodayCount(int employeeId) async {
+    todayCount = await repository.getCountToday(employeeId);
+    notifyListeners();
+  }
+
+  Future<void> GetTotalWorkHours(int employeeId) async {
+    totalWorkHours = await repository.GetTotalWorkHours(employeeId);
+    notifyListeners();
+  }
+
   void clear() {
     attendances.clear();
     notifyListeners();
   }
+
+  int get inToday => todayCount == 1 ? 1 : 0;
+  int get outToday => todayCount == 0 ? 1 : 0;
+  int get breakToday => 0;
 }

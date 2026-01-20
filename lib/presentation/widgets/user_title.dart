@@ -5,7 +5,7 @@ class UserTile extends StatelessWidget {
   final String initial;
   final Color color;
   final double radius;
-  final VoidCallback? onTap; // ✅ بدل destination
+  final VoidCallback? onTap;
 
   const UserTile({
     super.key,
