@@ -199,4 +199,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get operationFailed => 'Operation failed. Please try again.';
+
+  @override
+  String get checkIn => 'Check In';
+
+  @override
+  String get checkOut => 'Check Out';
 }

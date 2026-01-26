@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/presentation/pages/edit_profile_age.dart';
 import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
 import 'package:flutter_application_1/providers/employee_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,23 @@ class UserProfilePage extends StatelessWidget {
     }
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppPageAppBar(title: loc.profile),
+      appBar: AppPageAppBar(
+        title: loc.profile,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => EditProfilePage(employee: employee),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+
       body: ListView(
         children: [
           _section(
@@ -71,11 +88,6 @@ class UserProfilePage extends StatelessWidget {
   }
 
   Widget _item(String title, String value) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(value),
-      trailing: const Icon(Icons.chevron_right, size: 18),
-      onTap: () {},
-    );
+    return ListTile(title: Text(title), subtitle: Text(value), onTap: () {});
   }
 }

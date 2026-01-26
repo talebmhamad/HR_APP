@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/l10n/app_localizations.dart';
-import 'package:flutter_application_1/presentation/pages/check_in_page.dart';
+import 'package:flutter_application_1/presentation/pages/attendance_action_page.dart';
 import 'package:flutter_application_1/presentation/widgets/timeclock_card.dart';
 import 'package:flutter_application_1/providers/auth_provider.dart';
 import 'package:flutter_application_1/providers/attendance_provider.dart';
@@ -32,6 +32,9 @@ class _TimeClockTabState extends State<TimeClockTab> {
   @override
   Widget build(BuildContext context) {
     final w = MediaQuery.of(context).size.width;
+    final attendance = context.watch<AttendanceProvider>();
+    final isCheckedIn = attendance.isCheckedInToday;
+
     final h = MediaQuery.of(context).size.height;
     final loc = AppLocalizations.of(context)!;
 
@@ -106,17 +109,20 @@ class _TimeClockTabState extends State<TimeClockTab> {
                       MaterialPageRoute(builder: (_) => const CheckInPage()),
                     );
                   },
-                  icon: const Icon(Icons.play_arrow, color: Colors.white),
-                  label: const Text(
-                    "Check",
-                    style: TextStyle(
+                  icon: Icon(
+                    isCheckedIn ? Icons.stop_circle : Icons.play_arrow,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    isCheckedIn ? loc.checkOut : loc.checkIn,
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
+                    backgroundColor: isCheckedIn ? Colors.red : Colors.green,
                     shape: const StadiumBorder(),
                     elevation: 0,
                   ),

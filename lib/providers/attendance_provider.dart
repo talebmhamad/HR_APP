@@ -68,7 +68,25 @@ class AttendanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  AttendanceModel? get todayOpenAttendance {
+    final today = DateTime.now();
+
+    try {
+      return attendances.firstWhere(
+        (a) =>
+            a.attendanceDate.year == today.year &&
+            a.attendanceDate.month == today.month &&
+            a.attendanceDate.day == today.day &&
+            a.checkInTime != null &&
+            a.checkOutTime == null,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
   int get inToday => todayCount == 1 ? 1 : 0;
   int get outToday => todayCount == 0 ? 1 : 0;
   int get breakToday => 0;
+  bool get isCheckedInToday => todayOpenAttendance != null;
 }

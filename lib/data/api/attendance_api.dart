@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_1/core/network/api_endpoints.dart';
 import 'package:http/http.dart' as http;
 import '../../core/network/api_config.dart';
 import '../models/attendance_model.dart';
@@ -6,7 +7,9 @@ import '../models/attendance_model.dart';
 class AttendanceApi {
   static Future<List<AttendanceModel>> getByEmployee(int employeeId) async {
     final res = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/api/attendance/employee/$employeeId'),
+      Uri.parse(
+        '${ApiConfig.baseUrl}${ApiEndpoints.attendanceByEmployee}/$employeeId',
+      ),
       headers: ApiConfig.headers(),
     );
 
@@ -19,7 +22,7 @@ class AttendanceApi {
 
   static Future<bool> check(AttendanceModel model) async {
     final res = await http.post(
-      Uri.parse('${ApiConfig.baseUrl}/api/attendance/check'),
+      Uri.parse('${ApiConfig.baseUrl}${ApiEndpoints.attendanceCheck}'),
       headers: ApiConfig.headers(),
       body: jsonEncode(model.toJson()),
     );
@@ -29,7 +32,9 @@ class AttendanceApi {
 
   static Future<int> getCountToday(int employeeId) async {
     final res = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/api/attendance/today/$employeeId'),
+      Uri.parse(
+        '${ApiConfig.baseUrl}${ApiEndpoints.attendanceToday}/$employeeId',
+      ),
       headers: ApiConfig.headers(),
     );
 
@@ -42,7 +47,9 @@ class AttendanceApi {
 
   static Future<double> GetTotalWorkHours(int employeeId) async {
     final res = await http.get(
-      Uri.parse('${ApiConfig.baseUrl}/api/attendance/workhours/$employeeId'),
+      Uri.parse(
+        '${ApiConfig.baseUrl}${ApiEndpoints.attendanceWorkHours}/$employeeId',
+      ),
       headers: ApiConfig.headers(),
     );
 

@@ -3,7 +3,6 @@ import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/presentation/widgets/setting_item.dart';
 import 'package:flutter_application_1/routes/route_names.dart';
-
 import '../widgets/user_title.dart';
 
 class MenuTab extends StatelessWidget {

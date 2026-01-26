@@ -255,6 +255,9 @@ abstract class AppLocalizations {
   String get accountDeleteConfirm;
   String get cancel;
   String get operationFailed;
+
+  String get checkIn;
+  String get checkOut;
 }
 
 class _AppLocalizationsDelegate

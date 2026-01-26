@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class AppPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBack;
+  final List<Widget>? actions;
 
-  const AppPageAppBar({super.key, required this.title, this.onBack});
+  const AppPageAppBar({
+    super.key,
+    required this.title,
+    this.onBack,
+    this.actions,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class AppPageAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: Colors.white,
       elevation: 0,
+      actions: actions,
     );
   }
 

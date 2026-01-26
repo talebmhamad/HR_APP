@@ -200,4 +200,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get operationFailed => 'فشلت العملية، يرجى المحاولة مرة أخرى.';
+  @override
+  String get checkIn => 'تسجيل الدخول';
+
+  @override
+  String get checkOut => 'تسجيل الخروج';
 }

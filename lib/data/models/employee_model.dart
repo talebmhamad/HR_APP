@@ -17,6 +17,22 @@ class EmployeeModel {
     required this.phoneNumber,
   });
 
+  EmployeeModel copyWith({
+    String? firstName,
+    String? lastName,
+    String? phoneNumber,
+  }) {
+    return EmployeeModel(
+      employeeId: employeeId,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email,
+      isActive: isActive,
+      department: department,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+    );
+  }
+
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(
       employeeId: json['employeeId'],

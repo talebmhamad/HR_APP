@@ -1,5 +1,5 @@
 import 'package:flutter_application_1/presentation/pages/account_control_page.dart';
-import 'package:flutter_application_1/presentation/pages/check_in_page.dart';
+import 'package:flutter_application_1/presentation/pages/attendance_action_page.dart';
 import 'package:flutter_application_1/presentation/pages/personal_settings_page.dart';
 import 'package:flutter_application_1/presentation/pages/user_profile_page.dart';
 import '../presentation/pages/login_page.dart';

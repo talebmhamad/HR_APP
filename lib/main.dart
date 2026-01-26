@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/repositories/AuthRepository%20.dart';
-import 'package:flutter_application_1/data/repositories/TimesheetRepository%20.dart';
+import 'package:flutter_application_1/data/repositories/auth_repository%20.dart';
+import 'package:flutter_application_1/data/repositories/timesheet_repository%20.dart';
 import 'package:flutter_application_1/data/repositories/attendance_repository.dart';
 import 'package:flutter_application_1/data/repositories/employee_repository.dart';
 import 'package:flutter_application_1/providers/attendance_provider.dart';

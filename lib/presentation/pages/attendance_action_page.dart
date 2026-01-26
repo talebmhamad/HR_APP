@@ -29,18 +29,25 @@ class _CheckInPageState extends State<CheckInPage> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final attendanceProvider = context.watch<AttendanceProvider>();
+    final isCheckedIn = attendanceProvider.isCheckedInToday;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF3F6FF),
+
       appBar: AppBar(
-        title: Text(
-          loc.confirm,
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.black87),
+        title: Text(
+          isCheckedIn ? loc.checkOut : loc.checkIn,
+          style: const TextStyle(
+            color: Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
+
       body: Column(
         children: [
           Expanded(
@@ -49,6 +56,7 @@ class _CheckInPageState extends State<CheckInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // 📦 INFO CARD
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -62,7 +70,6 @@ class _CheckInPageState extends State<CheckInPage> {
                         ),
                       ],
                     ),
-
                     child: Column(
                       children: [
                         Consumer<EmployeeProvider>(
@@ -99,9 +106,10 @@ class _CheckInPageState extends State<CheckInPage> {
 
                   const SizedBox(height: 30),
 
+                  // 📝 NOTE
                   Text(
                     loc.addNote,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black54,
@@ -138,28 +146,33 @@ class _CheckInPageState extends State<CheckInPage> {
             ),
           ),
 
+          // 🔘 ACTION BUTTON
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
             child: SizedBox(
               width: double.infinity,
               height: 56,
               child: ElevatedButton(
-                onPressed: context.watch<AttendanceProvider>().isLoading
+                onPressed: attendanceProvider.isLoading
                     ? null
                     : () async {
                         final employee = context
                             .read<EmployeeProvider>()
                             .employee;
                         if (employee == null) return;
+
                         final success = await context
                             .read<AttendanceProvider>()
                             .check(employee.employeeId);
+
                         if (success && mounted) {
                           Navigator.pop(context);
                         }
                       },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green.shade600,
+                  backgroundColor: isCheckedIn
+                      ? Colors.red.shade600
+                      : Colors.green.shade600,
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -167,8 +180,11 @@ class _CheckInPageState extends State<CheckInPage> {
                   elevation: 0,
                 ),
                 child: Text(
-                  loc.confirm,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  isCheckedIn ? loc.checkOut : loc.checkIn,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

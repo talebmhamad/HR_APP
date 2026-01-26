@@ -1,4 +1,4 @@
-import 'package:flutter_application_1/data/api/AuthApi.dart';
+import 'package:flutter_application_1/data/api/auth_api.dart';
 import '../models/auth_model.dart';
 
 class AuthRepository {

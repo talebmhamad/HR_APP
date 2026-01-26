@@ -87,6 +87,7 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                             : '?',
                         color: appBlue,
                         radius: w * 0.09,
+                        imagePath: 'storage/uploads/employees/profile.png',
                         onTap: () {
                           Navigator.pushNamed(context, RouteNames.profile);
                         },

@@ -1,8 +1,5 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../../core/network/api_config.dart';
-import '../models/timesheet_summary_model.dart';
-import '../models/daily_timesheet_model.dart';
+import 'package:flutter_application_1/data/models/daily_timesheet_model.dart';
+import 'package:flutter_application_1/data/models/timesheet_summary_model.dart';
 
 class TimesheetApi {
   static Future<TimesheetSummaryModel> getSummary({
@@ -10,25 +7,14 @@ class TimesheetApi {
     required DateTime startDate,
     required DateTime endDate,
   }) async {
-    final uri = Uri.parse(
-      '${ApiConfig.baseUrl}/api/timesheets/summary'
-      '?employeeId=$employeeId'
-      '&startDate=${startDate.toIso8601String()}'
-      '&endDate=${endDate.toIso8601String()}',
-    );
+    // simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500));
 
-    final res = await http.get(uri, headers: ApiConfig.headers());
-
-    if (res.statusCode != 200) {
-      throw Exception('Failed to load timesheet summary');
-    }
-
-    final data = jsonDecode(res.body);
     return TimesheetSummaryModel(
-      totalHours: (data['totalHours'] as num).toDouble(),
-      daysWorked: data['daysWorked'],
-      missingDays: data['missingDays'],
-      overtimeHours: (data['overtimeHours'] as num).toDouble(),
+      totalHours: 42.5,
+      daysWorked: 5,
+      missingDays: 2,
+      overtimeHours: 2.5,
     );
   }
 
@@ -37,28 +23,34 @@ class TimesheetApi {
     required DateTime startDate,
     required DateTime endDate,
   }) async {
-    final uri = Uri.parse(
-      '${ApiConfig.baseUrl}/api/timesheets/daily'
-      '?employeeId=$employeeId'
-      '&startDate=${startDate.toIso8601String()}'
-      '&endDate=${endDate.toIso8601String()}',
-    );
+    await Future.delayed(const Duration(milliseconds: 500));
 
-    final res = await http.get(uri, headers: ApiConfig.headers());
-
-    if (res.statusCode != 200) {
-      throw Exception('Failed to load daily timesheets');
-    }
-
-    final List data = jsonDecode(res.body);
-    return data
-        .map(
-          (e) => DailyTimesheetModel(
-            date: DateTime.parse(e['date']),
-            hours: (e['hours'] as num).toDouble(),
-            status: e['status'],
-          ),
-        )
-        .toList();
+    return [
+      DailyTimesheetModel(
+        date: DateTime(2026, 1, 19),
+        hours: 8,
+        status: 'Complete',
+      ),
+      DailyTimesheetModel(
+        date: DateTime(2026, 1, 20),
+        hours: 8,
+        status: 'Complete',
+      ),
+      DailyTimesheetModel(
+        date: DateTime(2026, 1, 21),
+        hours: 6.5,
+        status: 'Complete',
+      ),
+      DailyTimesheetModel(
+        date: DateTime(2026, 1, 22),
+        hours: 0,
+        status: 'Absent',
+      ),
+      DailyTimesheetModel(
+        date: DateTime(2026, 1, 23),
+        hours: 0,
+        status: 'Missing',
+      ),
+    ];
   }
 }
