@@ -12,7 +12,7 @@ import 'package:flutter_application_1/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/language_provider.dart';
-import 'core/storage/sharedpreferenceshelper.dart';
+import 'core/storage/shared_preferences_helper.dart';
 import 'routes/route_names.dart';
 import 'routes/app_routes.dart';
 
