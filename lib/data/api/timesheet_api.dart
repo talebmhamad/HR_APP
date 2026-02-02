@@ -11,7 +11,7 @@ class TimesheetApi {
     await Future.delayed(const Duration(milliseconds: 500));
 
     return TimesheetSummaryModel(
-      totalHours: 42.5,
+      totalHours: 52.5,
       daysWorked: 5,
       missingDays: 2,
       overtimeHours: 2.5,

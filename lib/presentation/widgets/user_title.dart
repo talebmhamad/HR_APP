@@ -6,7 +6,8 @@ class UserTile extends StatelessWidget {
   final Color color;
   final double radius;
   final VoidCallback? onTap;
-  final String? imagePath; // ✅ NEW
+  final String? imagePath;
+  final bool showArrow;
 
   const UserTile({
     super.key,
@@ -16,6 +17,7 @@ class UserTile extends StatelessWidget {
     required this.radius,
     this.onTap,
     this.imagePath,
+    this.showArrow = false,
   });
 
   @override
@@ -36,10 +38,10 @@ class UserTile extends StatelessWidget {
                 CircleAvatar(
                   radius: radius,
                   backgroundColor: color,
-                  backgroundImage: imagePath != null
-                      ? AssetImage(imagePath!)
+                  backgroundImage: imagePath != null && imagePath!.isNotEmpty
+                      ? NetworkImage(imagePath!)
                       : null,
-                  child: imagePath == null
+                  child: (imagePath == null || imagePath!.isEmpty)
                       ? Text(
                           initial,
                           style: TextStyle(
@@ -50,6 +52,7 @@ class UserTile extends StatelessWidget {
                         )
                       : null,
                 ),
+
                 SizedBox(width: w * 0.04),
                 Text(
                   name,
@@ -59,11 +62,12 @@ class UserTile extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: w * 0.04,
-                  color: Colors.grey,
-                ),
+                if (showArrow)
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: w * 0.04,
+                    color: Colors.grey,
+                  ),
               ],
             ),
           ),

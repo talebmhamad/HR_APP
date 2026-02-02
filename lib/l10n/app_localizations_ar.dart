@@ -205,4 +205,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get checkOut => 'تسجيل الخروج';
+
+  @override
+  String get logoutConfirm => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
 }

@@ -6,6 +6,7 @@ class EmployeeModel {
   final bool isActive;
   final String department;
   final String phoneNumber;
+  final String? profileImageUrl;
 
   EmployeeModel({
     required this.employeeId,
@@ -15,12 +16,14 @@ class EmployeeModel {
     required this.isActive,
     required this.department,
     required this.phoneNumber,
+    this.profileImageUrl,
   });
 
   EmployeeModel copyWith({
     String? firstName,
     String? lastName,
     String? phoneNumber,
+    String? profileImageUrl,
   }) {
     return EmployeeModel(
       employeeId: employeeId,
@@ -30,6 +33,7 @@ class EmployeeModel {
       isActive: isActive,
       department: department,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
     );
   }
 
@@ -42,6 +46,7 @@ class EmployeeModel {
       isActive: json['isActive'],
       department: json['department'] ?? '',
       phoneNumber: json['phone'] ?? '',
+      profileImageUrl: json['profileImageUrl'],
     );
   }
 }

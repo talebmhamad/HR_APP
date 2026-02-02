@@ -205,4 +205,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get checkOut => 'Check Out';
+  @override
+  String get logoutConfirm => 'Are you sure you want to log out?';
 }

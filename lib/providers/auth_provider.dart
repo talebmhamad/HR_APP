@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/models/employee_model.dart';
 import 'package:flutter_application_1/data/repositories/auth_repository%20.dart';
-import '../core/storage/sharedpreferenceshelper.dart';
+import '../core/storage/shared_preferences_helper.dart';
 import '../data/models/auth_model.dart';
 
 class AuthProvider extends ChangeNotifier {

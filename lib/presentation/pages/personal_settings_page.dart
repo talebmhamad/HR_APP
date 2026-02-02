@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/presentation/widgets/logout_confirm_dialog.dart';
+import 'package:flutter_application_1/presentation/widgets/theme_dropdown.dart';
 import 'package:flutter_application_1/providers/employee_provider.dart';
+import 'package:flutter_application_1/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/constants.dart';
@@ -22,6 +25,7 @@ class PersonalSettingsPage extends StatefulWidget {
 
 class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
   final GlobalKey<PopupMenuButtonState<String>> _languageMenuKey = GlobalKey();
+  final GlobalKey<PopupMenuButtonState<String>> _themeMenuKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +34,7 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
     final loc = AppLocalizations.of(context)!;
     final langProvider = context.watch<LanguageProvider>();
 
-    /// SETTINGS CONFIG (Routes only)
+    /// SETTINGS CONFIG
     final List<Map<String, dynamic>> settingsList = [
       {'type': 'user'},
 
@@ -38,28 +42,31 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
         'type': 'item',
         'icon': Icons.notifications_none,
         'title': loc.notifications,
-        'route': RouteNames.settings, // placeholder
+        'route': RouteNames.settings,
       },
       {
         'type': 'item',
         'icon': Icons.help_outline,
         'title': loc.menuSupport,
-        'route': RouteNames.settings, // placeholder
+        'route': RouteNames.settings,
+        'showArrow': false,
       },
       {
         'type': 'item',
         'icon': Icons.settings_applications_sharp,
         'title': loc.accountControl,
         'route': RouteNames.accountControl,
+        'showArrow': true,
       },
 
       {'type': 'language'},
+
+      {'type': 'theme'},
 
       {'type': 'logout', 'icon': Icons.logout, 'title': loc.logout},
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppPageAppBar(title: loc.menuPersonalSettings),
       body: Column(
         children: [
@@ -87,7 +94,8 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                             : '?',
                         color: appBlue,
                         radius: w * 0.09,
-                        imagePath: 'storage/uploads/employees/profile.png',
+                        imagePath: emp.profileImageUrl,
+                        showArrow: true,
                         onTap: () {
                           Navigator.pushNamed(context, RouteNames.profile);
                         },
@@ -130,11 +138,42 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                           _languageMenuKey.currentState?.showButtonMenu();
                         },
                       ),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                        color: Colors.grey.shade300,
+                      Divider(height: 1, thickness: 1),
+                    ],
+                  );
+                }
+                // ---------- THEME ----------
+                if (item['type'] == 'theme') {
+                  final themeProvider = context.watch<ThemeProvider>();
+
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.dark_mode_outlined,
+                          color: Colors.grey,
+                          size: w * 0.09,
+                        ),
+                        title: Text(
+                          'Theme',
+                          style: TextStyle(
+                            fontSize: w * 0.045,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          themeProvider.isDark ? 'Dark' : 'Light',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        trailing: ThemeDropdown(menuKey: _themeMenuKey),
+                        onTap: () {
+                          _themeMenuKey.currentState?.showButtonMenu();
+                        },
                       ),
+                      Divider(height: 1, thickness: 1),
                     ],
                   );
                 }
@@ -144,7 +183,17 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                   return SettingItem(
                     icon: item['icon'],
                     title: item['title'],
-                    onTap: () => _signOut(context),
+                    showArrow: true,
+                    onTap: () async {
+                      final confirmed = await showDialog<bool>(
+                        context: context,
+                        builder: (_) => const LogoutConfirmDialog(),
+                      );
+
+                      if (confirmed != true) return;
+
+                      _signOut(context);
+                    },
                   );
                 }
 
@@ -155,6 +204,7 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
                   onTap: () {
                     Navigator.pushNamed(context, item['route']);
                   },
+                  showArrow: item['showArrow'] ?? false,
                 );
               },
             ),
@@ -173,7 +223,7 @@ class _PersonalSettingsPageState extends State<PersonalSettingsPage> {
     );
   }
 
-  /// LOGOUT (Provider only)
+  /// LOGOUT
   Future<void> _signOut(BuildContext context) async {
     await context.read<AuthProvider>().logout();
 

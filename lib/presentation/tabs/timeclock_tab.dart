@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/l10n/app_localizations.dart';
@@ -40,21 +41,7 @@ class _TimeClockTabState extends State<TimeClockTab> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FE),
-
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          loc.menuTimeClock,
-          style: TextStyle(
-            fontSize: w * 0.05,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ),
-
+      appBar: AppPageAppBar(title: loc.menuTimeClock, hasback: false),
       body: SafeArea(
         child: Stack(
           children: [

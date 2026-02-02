@@ -258,6 +258,7 @@ abstract class AppLocalizations {
 
   String get checkIn;
   String get checkOut;
+  String get logoutConfirm;
 }
 
 class _AppLocalizationsDelegate

@@ -55,7 +55,7 @@ class UserProfilePage extends StatelessWidget {
             title: loc.loginSecurity,
             children: [
               _item(loc.email, employee.email),
-              _item(loc.phoneNumber, employee.phoneNumber ?? '-'),
+              _item(loc.phoneNumber, employee.phoneNumber),
             ],
           ),
         ],

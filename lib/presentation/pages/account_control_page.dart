@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/presentation/widgets/delete_account_dialog.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_application_1/l10n/app_localizations.dart';
@@ -65,23 +66,7 @@ class AccountControlPage extends StatelessWidget {
                     : () async {
                         final confirmed = await showDialog<bool>(
                           context: context,
-                          builder: (_) => AlertDialog(
-                            title: Text(loc.deleteAccount),
-                            content: Text(loc.accountDeleteConfirm),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, false),
-                                child: Text(loc.cancel),
-                              ),
-                              TextButton(
-                                onPressed: () => Navigator.pop(context, true),
-                                child: Text(
-                                  loc.deleteAccount,
-                                  style: const TextStyle(color: Colors.red),
-                                ),
-                              ),
-                            ],
-                          ),
+                          builder: (_) => const DeleteAccountDialog(),
                         );
 
                         if (confirmed != true) return;

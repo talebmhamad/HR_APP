@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class SettingItem extends StatelessWidget {
   final IconData icon;
   final String title;
-
-  final Widget? destination; // Optional navigation
-  final VoidCallback? onTap; // Optional custom action
+  final Widget? destination;
+  final VoidCallback? onTap;
+  final bool showArrow;
 
   const SettingItem({
     super.key,
@@ -13,6 +13,7 @@ class SettingItem extends StatelessWidget {
     required this.title,
     this.destination,
     this.onTap,
+    this.showArrow = false,
   });
 
   @override
@@ -40,7 +41,7 @@ class SettingItem extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(icon, size: w * 0.08, color: Colors.black54),
+                Icon(icon, size: w * 0.08),
                 SizedBox(width: w * 0.04),
                 Text(
                   title,
@@ -50,16 +51,12 @@ class SettingItem extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: w * 0.04,
-                  color: Colors.grey,
-                ),
+                if (showArrow) Icon(Icons.arrow_forward_ios, size: w * 0.04),
               ],
             ),
           ),
         ),
-        Divider(height: 1, thickness: 1, color: Colors.grey.shade300),
+        Divider(height: 1, thickness: 1),
       ],
     );
   }

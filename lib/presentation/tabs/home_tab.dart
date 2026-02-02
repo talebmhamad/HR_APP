@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/presentation/widgets/chart_card.dart';
+import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
 import 'package:flutter_application_1/presentation/widgets/trackedhours_card.dart';
 import 'package:flutter_application_1/presentation/widgets/who_in_out_card.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
@@ -36,15 +37,7 @@ class _HomeTabState extends State<HomeTab> {
     final loc = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        title: Text(
-          loc.Dashboard,
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: AppPageAppBar(title: loc.menuHome, hasback: false),
       body: ListView.builder(
         padding: EdgeInsets.all(w * 0.04),
         itemCount: 4,

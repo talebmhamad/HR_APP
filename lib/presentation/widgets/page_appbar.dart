@@ -4,12 +4,14 @@ class AppPageAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback? onBack;
   final List<Widget>? actions;
+  final bool hasback;
 
   const AppPageAppBar({
     super.key,
     required this.title,
     this.onBack,
     this.actions,
+    this.hasback = true,
   });
 
   @override
@@ -17,20 +19,17 @@ class AppPageAppBar extends StatelessWidget implements PreferredSizeWidget {
     final w = MediaQuery.of(context).size.width;
 
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: onBack ?? () => Navigator.pop(context),
-      ),
+      leading: hasback
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: onBack ?? () => Navigator.pop(context),
+            )
+          : null,
       title: Text(
         title,
-        style: TextStyle(
-          fontSize: w * 0.05,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,
-        ),
+        style: TextStyle(fontSize: w * 0.05, fontWeight: FontWeight.w600),
       ),
       centerTitle: true,
-      backgroundColor: Colors.white,
       elevation: 0,
       actions: actions,
     );

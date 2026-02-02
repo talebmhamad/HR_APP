@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/core/storage/sharedpreferenceshelper.dart';
+import 'package:flutter_application_1/core/storage/shared_preferences_helper.dart';
 
 class LanguageProvider extends ChangeNotifier {
   Locale _locale = const Locale('en');

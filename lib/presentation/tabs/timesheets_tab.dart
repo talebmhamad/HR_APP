@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/presentation/widgets/page_appbar.dart';
 import 'package:flutter_application_1/providers/employee_provider.dart';
 import 'package:provider/provider.dart';
 import '../../providers/timesheet_provider.dart';
@@ -28,15 +29,12 @@ class _TimesheetsPageState extends State<TimesheetsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
     final employeeId =
         context.read<EmployeeProvider>().employee?.employeeId ?? 0;
+    final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.menuTimesheets),
-        centerTitle: true,
-      ),
+      appBar: AppPageAppBar(title: loc.menuTimesheets, hasback: false),
       body: Consumer<TimesheetProvider>(
         builder: (context, provider, _) {
           if (provider.isLoading) {
